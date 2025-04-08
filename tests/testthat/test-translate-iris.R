@@ -111,3 +111,19 @@ test_that("translate sql server -> InterSystems IRIS FROM ( VALUES ... ) clause"
   sql <- translate("SELECT * FROM (SELECT TRY_CAST(a AS INT) AS a, TRY_CAST(b AS DOUBLE) AS b FROM (VALUES (1, 2), (2, 3)) AS drvd(a, b);", targetDialect = "iris")
   expect_equal_ignore_spaces(sql, "SELECT * FROM (SELECT CAST(a AS INT) AS a, CAST(b AS DOUBLE) AS b FROM ((SELECT NULL AS a, NULL AS b WHERE (0 = 1)) UNION ALL (SELECT 1, 2) UNION ALL (SELECT 2, 3)) AS values_table;")
 })
+
+
+# test CTE with DDL
+test_that("translate sql server -> InterSystems IRIS DDL with CTE", {
+  sql <- translate("WITH a AS (SELECT 123 as test), b AS (SELECT test FROM t_test) CREATE TABLE t AS SELECT * FROM a UNION b;", targetDialect = "iris")
+  expect_equal_ignore_spaces(sql, "CREATE TABLE t AS WITH a AS (SELECT 123 as test), b AS (SELECT test FROM t_test) SELECT * FROM a UNION b;")
+})
+test_that("translate sql server -> InterSystems IRIS DDL with CTE", {
+  sql <- translate("WITH a AS (SELECT 123 as test), b AS (SELECT test FROM t_test) CREATE TABLE #t AS SELECT * FROM a UNION b;", targetDialect = "iris")
+  expect_equal_ignore_spaces(sql, paste0("CREATE GLOBAL TEMPORARY TABLE ", getTempTablePrefix(), "t AS WITH a AS (SELECT 123 as test), b AS (SELECT test FROM t_test) SELECT * FROM a UNION b;"))
+})
+test_that("translate sql server -> InterSystems IRIS DDL with CTE", {
+  sql <- translate("WITH a AS (SELECT 123 as test) SELECT * INTO #t FROM a;", targetDialect = "iris")
+  expect_equal_ignore_spaces(sql, paste0("CREATE GLOBAL TEMPORARY TABLE ", getTempTablePrefix(), "t AS WITH a AS (SELECT 123 as test) SELECT * FROM a;"))
+})
+

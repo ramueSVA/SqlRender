@@ -1386,10 +1386,6 @@ iris,+ CAST(@a AS varchar),|| CAST(@a AS varchar)
 iris,COUNT_BIG(@a),COUNT(@a)
 iris,.dbo.,.
 iris,CREATE TABLE #@table (@definition),DROP TABLE IF EXISTS #@table; CREATE GLOBAL TEMPORARY TABLE #@table (@definition)
-iris,"WITH @a AS (@b), @c CREATE TABLE @d AS @e;","DROP TABLE IF EXISTS #@a;\n CREATE GLOBAL TEMPORARY TABLE #@a AS @b;\n WITH @c CREATE TABLE @d AS @e;\n DROP TABLE IF EXISTS #@a;"
-iris,WITH @a AS (@b) CREATE TABLE @c AS SELECT @d;,DROP TABLE IF EXISTS #@a;\n CREATE GLOBAL TEMPORARY TABLE #@a AS @b;\n CREATE TABLE @c AS SELECT @d;\n DROP TABLE IF EXISTS #@a;
-iris,"WITH @a AS (@b), @c CREATE GLOBAL TEMPORARY TABLE @d AS @e;","DROP TABLE IF EXISTS #@a;\n CREATE GLOBAL TEMPORARY TABLE #@a AS @b;\n WITH @c CREATE GLOBAL TEMPORARY TABLE @d AS @e;\n DROP TABLE IF EXISTS #@a;"
-iris,WITH @a AS (@b) CREATE GLOBAL TEMPORARY TABLE @c AS @d;,DROP TABLE IF EXISTS #@a;\n CREATE GLOBAL TEMPORARY TABLE #@a AS @b;\n CREATE GLOBAL TEMPORARY TABLE @c AS @d;\n DROP TABLE IF EXISTS #@a;
 iris,"IF OBJECT_ID('@table', 'U') IS NULL CREATE TABLE @table (@definition);",CREATE TABLE IF NOT EXISTS @table (@definition);
 iris,"IF OBJECT_ID('@table', 'U') IS NOT NULL DROP TABLE @table;",DROP TABLE IF EXISTS @table;
 iris,"IF OBJECT_ID('tempdb..#@table', 'U') IS NOT NULL DROP TABLE #@table;",DROP TABLE IF EXISTS #@table;
@@ -1404,6 +1400,9 @@ iris,SELECT @a INTO #@b FROM @c;,CREATE GLOBAL TEMPORARY TABLE #@b AS SELECT @a 
 iris,SELECT @a INTO @b FROM @c;,CREATE TABLE @b AS SELECT @a FROM @c;
 iris,SELECT @a INTO @b;,CREATE TABLE @b AS SELECT @a;
 iris,SELECT @a INTO #@b;,CREATE GLOBAL TEMPORARY TABLE #@b AS SELECT @a;
+iris,"WITH @cte CREATE TABLE #@table AS @select;","CREATE GLOBAL TEMPORARY TABLE #@table AS WITH @cte @select;"
+iris,"WITH @cte CREATE GLOBAL TEMPORARY TABLE @table AS @select;","CREATE GLOBAL TEMPORARY TABLE @table AS WITH @cte @select;"
+iris,"WITH @cte CREATE TABLE @table AS @select;","CREATE TABLE @table AS WITH @cte @select;"
 iris,#,%temp_prefix%%session_id%
 iris,UPDATE STATISTICS @a;,TUNE TABLE @a;
 iris,"--HINT BUCKET(@a, @b)", "-- haven't looked into this yet, skip it for now"
