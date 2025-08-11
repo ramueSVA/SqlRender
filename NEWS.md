@@ -1,3 +1,11 @@
+SqlRender 1.19.3
+================
+
+Bugfixes:
+
+1. Fix and simplify support for CTEs in DDL statements for InterSystems IRIS.
+
+
 SqlRender 1.19.2
 ================
 

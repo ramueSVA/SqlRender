@@ -1,11 +1,12 @@
-There are 3 bugfix (see NEWS.md).
+There is 1 bugfix (see NEWS.md).
 
 ---
 
 ## Test environments
-* Ubuntu 20.04, R 4.4.2
-* Microsoft Windows Server 2022, R 4.4.2
-* MacOS, R 4.4.2
+* Ubuntu 20.04, R 4.5.1
+* Microsoft Windows Server 2022, R 4.5.1
+* MacOS, R 4.5.1
+* MacOS, R 4.4.1
 
 ## R CMD check results
 
