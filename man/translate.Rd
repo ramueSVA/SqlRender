@@ -15,7 +15,7 @@ translate(
 \item{sql}{The SQL to be translated}
 
 \item{targetDialect}{The target dialect. Currently "oracle", "postgresql", "pdw", "impala",
-"sqlite", "sqlite extended", "netezza", "bigquery", "snowflake", "synapse", "spark", 
+"sqlite", "sqlite extended", "netezza", "bigquery", "snowflake", "dremio", "synapse", "spark",
 "redshift", and "iris" are supported.
 Use \code{\link{listSupportedDialects}} to get the list of supported dialects.}
 

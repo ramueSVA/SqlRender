@@ -1358,6 +1358,126 @@ snowflake,"--HINT PARTITION(@a @b)",
 snowflake,"--HINT DISTRIBUTE_ON_KEY(@key)",
 snowflake,#,%temp_prefix%%session_id%
 snowflake,(@a & @b),"BITAND(@a, @b)"
+dremio,...@([0-9]+)a,xxx@a
+dremio,TRY_CAST(@a),CAST(@a)
+dremio,"AS drvd(@a)","AS drvd(<start>@a)"
+dremio,"<start>@a, @b)","<start>@a, <start>@b)"
+dremio,"<start>","NULL AS "
+dremio,"FROM (VALUES @a) AS drvd(@b)","FROM (SELECT @b WHERE (0 = 1) UNION ALL VALUES @a) AS values_table"
+dremio,TRY_CAST(@a),CAST(@a)
+dremio,"IIF(@condition, @whentrue, @whenfalse)","CASE WHEN @condition THEN @whentrue ELSE @whenfalse END"
+dremio,"HASHBYTES('MD5',@a)","MD5(@a)"
+dremio,"CONVERT(VARBINARY, @a, 1)","CAST(CONCAT('x', @a) AS VARBINARY)"
+dremio,"CONVERT(DATE, @a)","TO_DATE(@a, 'yyyymmdd')"
+dremio,"CONVERT(VARCHAR,@date,112)","TO_CHAR(@date, 'YYYYMMDD')"
+dremio,GETDATE(),NOW()
+dremio,+ '@a',|| '@a'
+dremio,'@a' +,'@a' ||
+dremio,CAST(@a AS varchar(@b)) +,CAST(@a AS varchar(@b)) ||
+dremio,+ CAST(@a AS varchar(@b)),|| CAST(@a AS varchar(@b))
+dremio,CAST(@a AS varchar) +,CAST(@a AS varchar) ||
+dremio,+ CAST(@a AS varchar),|| CAST(@a AS varchar)
+dremio,"DATEADD(d,@days,CAST(@date AS DATE))","DATE_ADD(@date, @days)"
+dremio,"DATEADD(dd,@days,CAST(@date AS DATE))","DATE_ADD(@date, @days)"
+dremio,"DATEADD(day,@days,CAST(@date AS DATE))","DATE_ADD(@date, @days)"
+dremio,"DATEADD(d,@days,@date)","DATE_ADD(CAST(@date AS DATE), @days)"
+dremio,"DATEADD(dd,@days,@date)","DATE_ADD(CAST(@date AS DATE), @days)"
+dremio,"DATEADD(day,@days,@date)","DATE_ADD(CAST(@date AS DATE), @days)"
+dremio,"DATEADD(month,@months,CAST(@date AS DATE))","DATE_ADD(@date, CAST(@months AS INTERVAL MONTH))"
+dremio,"DATEADD(mm,@months,CAST(@date AS DATE))","DATE_ADD(@date, CAST(@months AS INTERVAL MONTH))"
+dremio,"DATEADD(m,@months,CAST(@date AS DATE))","DATE_ADD(@date, CAST(@months AS INTERVAL MONTH))"
+dremio,"DATEADD(month,@months,@date)","DATE_ADD(@date, CAST(@months AS INTERVAL MONTH))"
+dremio,"DATEADD(mm,@months,@date)","DATE_ADD(@date, CAST(@months AS INTERVAL MONTH))"
+dremio,"DATEADD(m,@months,@date)","DATE_ADD(@date, CAST(@months AS INTERVAL MONTH))"
+dremio,"DATEADD(year,@years,CAST(@date AS DATE))","DATE_ADD(@date, CAST(@years AS INTERVAL YEAR))"
+dremio,"DATEADD(yyyy,@years,CAST(@date AS DATE))","DATE_ADD(@date, CAST(@years AS INTERVAL YEAR))"
+dremio,"DATEADD(yy,@years,CAST(@date AS DATE))","DATE_ADD(@date, CAST(@years AS INTERVAL YEAR))"
+dremio,"DATEADD(year,@years,@date)","DATE_ADD(@date, CAST(@years AS INTERVAL YEAR))"
+dremio,"DATEADD(yyyy,@years,@date)","DATE_ADD(@date, CAST(@years AS INTERVAL YEAR))"
+dremio,"DATEADD(yy,@years,@date)","DATE_ADD(@date, CAST(@years AS INTERVAL YEAR))"
+dremio,"DATEDIFF(d,@start, @end)","DATEDIFF(CAST(@end AS DATE), CAST(@start AS DATE))"
+dremio,"DATEDIFF(dd,@start, @end)","DATEDIFF(CAST(@end AS DATE), CAST(@start AS DATE))"
+dremio,"DATEDIFF(day,@start, @end)","DATEDIFF(CAST(@end AS DATE), CAST(@start AS DATE))"
+dremio,"DATEDIFF(month,@start, @end)","CAST(MONTHS_BETWEEN(CAST(@end AS DATE), CAST(@start AS DATE)) AS INTEGER)"
+dremio,"DATEDIFF(mm,@start, @end)","CAST(MONTHS_BETWEEN(CAST(@end AS DATE), CAST(@start AS DATE)) AS INTEGER)"
+dremio,"DATEDIFF(m,@start, @end)","CAST(MONTHS_BETWEEN(CAST(@end AS DATE), CAST(@start AS DATE)) AS INTEGER)"
+dremio,"DATEDIFF(year,@start, @end)",(YEAR(CAST(@end AS DATE)) - YEAR(CAST(@start AS DATE)))
+dremio,"DATEDIFF(yyyy,@start, @end)",(YEAR(CAST(@end AS DATE)) - YEAR(CAST(@start AS DATE)))
+dremio,"DATEDIFF(yy,@start, @end)",(YEAR(CAST(@end AS DATE)) - YEAR(CAST(@start AS DATE)))
+dremio,"DATEFROMPARTS(@year,@month,@day)","TO_DATE(TO_CHAR(@year,'0000')||'-'||TO_CHAR(@month,'00')||'-'||TO_CHAR(@day,'00'), 'YYYY-MM-DD')"
+dremio,"DATETIMEFROMPARTS(@year,@month,@day,@hour,@minute,@second,@ms)","TO_TIMESTAMP(TO_CHAR(@year,'0000')||'-'||TO_CHAR(@month,'00')||'-'||TO_CHAR(@day,'00')||' '||TO_CHAR(@hour,'00')||':'||TO_CHAR(@minute,'00')||':'||TO_CHAR(@second,'00'), 'YYYY-MM-DD HH24:MI:SS')"
+dremio,"eomonth(@date)","LAST_DAY(@date)"
+dremio,DAY(@date),DAYOFMONTH(CAST(@date AS DATE))
+dremio,MONTH(@date),MONTH(CAST(@date AS DATE))
+dremio,YEAR(@date),YEAR(CAST(@date AS DATE))
+dremio,"DATEPART(YEAR, @date)",YEAR(CAST(@date AS DATE))
+dremio,"DATEPART(MONTH, @date)",MONTH(CAST(@date AS DATE))
+dremio,"DATEPART(DAY, @date)",DAYOFMONTH(CAST(@date AS DATE))
+dremio,STDEV(@a),STDDEV_POP(@a)
+dremio,VAR(@a),VARIANCE(@a)
+dremio,RAND(),RANDOM()
+dremio,CEILING(@a),CEILING(@a)
+dremio,"LOG(@expression,@base)","<L_O_G>(@base,@expression)"
+dremio,LOG(@expression),LN(CAST((@expression) AS DOUBLE))
+dremio,<L_O_G>,LOG
+dremio,LOG10(@expression),"LOG10(@expression)"
+dremio,"ROUND(@a,@b)","ROUND(CAST(@a AS DOUBLE),@b)"
+dremio,SQUARE(@a),((@a)*(@a))
+dremio,"ISNULL(@a,@b)","COALESCE(@a,@b)"
+dremio,COUNT_BIG(@a),COUNT(@a)
+dremio,NEWID(),UUID()
+dremio,"CHARINDEX(@a,@b)","INSTR(@b,@a)"
+dremio,LEN(@a),LENGTH(@a)
+dremio,STDEV(@a),STDDEV_POP(@a)
+dremio,"IF OBJECT_ID('@table', 'U') IS NULL CREATE TABLE @table (@definition);",CREATE TABLE IF NOT EXISTS @table (@definition);
+dremio,"IF OBJECT_ID('@table', 'U') IS NOT NULL DROP TABLE @table;",DROP TABLE IF EXISTS @table;
+dremio,"IF OBJECT_ID('tempdb..#@table', 'U') IS NOT NULL DROP TABLE #@table;",DROP TABLE IF EXISTS @table;
+dremio,.dbo.,.
+dremio,CREATE CLUSTERED INDEX @index_name ON @table (@variable);,-- dremio does not support indexes
+dremio,CREATE INDEX @index_name ON @table (@variable);,-- dremio does not support indexes
+dremio,CREATE INDEX @index_name ON @table (@variable) WHERE @c;,-- dremio does not support indexes
+dremio,CREATE UNIQUE CLUSTERED INDEX @index_name ON @table (@variable);,-- dremio does not support indexes
+dremio,DROP INDEX @index_name;,-- dremio does not support indexes
+dremio,PRIMARY KEY NONCLUSTERED,-- dremio does not support primary keys
+dremio,WITH @a AS @b SELECT @c INTO #@d FROM @e;,CREATE TABLE #@d\nAS\nWITH @a AS @b SELECT\n@c\nFROM\n@e;
+dremio,WITH @a AS @b SELECT @c INTO @d FROM @e;,CREATE TABLE @d\nAS\nWITH @a AS @b SELECT\n@c\nFROM\n@e;
+dremio,WITH @a INSERT INTO @b SELECT @c;,INSERT INTO @b WITH @a SELECT @c;
+dremio,SELECT @a INTO #@b FROM @c;,CREATE TABLE #@b\nAS\nSELECT\n@a\nFROM\n@c;
+dremio,SELECT @a INTO @b FROM @c;,CREATE TABLE @b AS\nSELECT\n@a\nFROM\n@c;
+dremio,SELECT @a INTO @b;,CREATE TABLE @b AS\nSELECT\n@a;
+dremio,SELECT @a INTO #@b;,CREATE TABLE @b AS\nSELECT\n@a;
+dremio,SELECT TOP @([0-9]+)rows @a;,SELECT @a LIMIT @rows;
+dremio,(SELECT TOP @([0-9]+)rows @a),(SELECT @a LIMIT @rows)
+dremio,SELECT DISTINCT TOP @([0-9]+)rows @a;,SELECT DISTINCT @a LIMIT @rows;
+dremio,(SELECT DISTINCT TOP @([0-9]+)rows @a),(SELECT DISTINCT @a LIMIT @rows)
+dremio,"WITH @cte AS (SELECT @s1 '@literal' @s2)","WITH @cte AS (SELECT @s1 CAST('@literal' as VARCHAR) @s2)"
+dremio,DROP TABLE IF EXISTS @a (@b),DROP TABLE IF EXISTS @a
+dremio,UPDATE STATISTICS @a;,""
+dremio,"--HINT BUCKET(@a, @b)",""
+dremio,"--HINT PARTITION(@a @b)",""
+dremio,"--HINT DISTRIBUTE_ON_KEY(@key)",""
+dremio,#,%temp_prefix%%session_id%
+dremio,VARCHAR(MAX),VARCHAR
+dremio,REAL NOT NULL,DOUBLE NOT NULL
+dremio,TINYINT NOT NULL,INT NOT NULL
+dremio,SMALLINT NOT NULL,INT NOT NULL
+dremio,STRING NOT NULL,VARCHAR NOT NULL
+dremio,REAL NULL,DOUBLE NULL
+dremio,TINYINT NULL,INT NULL
+dremio,SMALLINT NULL,INT NULL
+dremio,STRING NULL,VARCHAR NULL
+dremio,DOUBLE PRECISION,DOUBLE
+dremio,DATETIME,TIMESTAMP
+dremio,DATETIME2,TIMESTAMP
+dremio,"CONSTRAINT @a DEFAULT NOW()",""
+dremio,"DEFAULT NOW()",""
+dremio,"AS COUNT","AS \"COUNT\""
+dremio,"AS VALUE","AS \"VALUE\""
+dremio,",COUNT",",\"COUNT\""
+dremio,",VALUE",",\"VALUE\""
+dremio,"COUNT,","\"COUNT\","
+dremio,"VALUE,","\"VALUE\","
+dremio,".METADATA",".\"METADATA\""
 synapse,...@([0-9]+|y)a,xxx@a
 synapse,VARCHAR(MAX),VARCHAR(8000)
 synapse,CREATE INDEX @index_name ON #@table (@variable);,-- synapse does not support non-clustered index on temp tables.

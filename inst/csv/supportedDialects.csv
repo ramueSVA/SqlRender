@@ -13,5 +13,6 @@ hive,Apache Hive
 sqlite extended,SQLite Extended Syntax
 duckdb,DuckDB
 snowflake,Snowflake
+dremio,Dremio
 synapse,Azure Synapse Analytics Dedicated
 iris,InterSystems IRIS
